@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kuiz Bab 1 Sains Komputer Tingkatan 4</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:linear-gradient(135deg,#07152f,#102b5c,#28115f);color:#fff;min-height:100vh}
+.container{max-width:900px;margin:auto;padding:24px}.card{background:rgba(10,20,50,.92);border:1px solid #4267a8;border-radius:22px;padding:28px;box-shadow:0 15px 45px rgba(0,0,0,.35)}
+h1{font-size:clamp(28px,5vw,44px);margin:0 0 8px;text-align:center}.subtitle{text-align:center;color:#bcd3ff;margin-bottom:24px}
+.top{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:20px;flex-wrap:wrap}.badge{padding:9px 14px;border-radius:999px;background:#17376d;color:#dce9ff;font-weight:bold}.timer{font-size:20px;color:#ffe082}
+.progress{height:10px;background:#162746;border-radius:20px;overflow:hidden;margin-bottom:25px}.bar{height:100%;width:0;background:linear-gradient(90deg,#39d9ff,#a66cff);transition:.3s}
+.q{font-size:22px;line-height:1.45;margin-bottom:20px}.options{display:grid;gap:12px}.option{padding:15px 17px;border:1px solid #3d5f98;border-radius:14px;background:#10234a;color:#fff;text-align:left;cursor:pointer;font-size:17px;transition:.2s}.option:hover{transform:translateY(-2px);background:#173569}.option.selected{border-color:#65e6ff;background:#143f65}.option.correct{background:#145b46;border-color:#52e0ae}.option.wrong{background:#632c3d;border-color:#ff7895}
+button{border:0;border-radius:12px;padding:13px 20px;font-size:16px;font-weight:bold;cursor:pointer}.primary{background:#55d8ff;color:#06142c}.secondary{background:#293f70;color:#fff}.actions{display:flex;justify-content:space-between;gap:12px;margin-top:25px}
+.hidden{display:none}.result{text-align:center}.score{font-size:64px;font-weight:bold;margin:15px}.review{text-align:left;margin-top:25px}.review-item{padding:14px;border-left:4px solid #55d8ff;background:#10234a;margin:10px 0;border-radius:8px}.small{color:#aac1eb;font-size:14px}
+.start-list{line-height:1.8;color:#d5e3ff}.name-input{width:100%;padding:14px;border-radius:12px;border:1px solid #4267a8;background:#091a38;color:white;font-size:17px;margin:15px 0}
+</style>
+</head>
+<body>
+<div class="container"><div class="card">
+<section id="start">
+<h1>🧠 KUiz Sains Komputer</h1>
+<div class="subtitle">Bab 1: Pengaturcaraan • Tingkatan 4</div>
+<input id="studentName" class="name-input" placeholder="Nama murid">
+<ul class="start-list">
+<li>20 soalan berdasarkan topik Bab 1.</li>
+<li>Timer keseluruhan: 20 minit.</li>
+<li>Markah dikira secara automatik.</li>
+<li>Keputusan dipaparkan selepas semua soalan dijawab.</li>
+</ul>
+<button class="primary" style="width:100%;margin-top:15px" onclick="startQuiz()">MULA KUIZ</button>
+</section>
+
+<section id="quiz" class="hidden">
+<div class="top"><span class="badge" id="counter"></span><span class="timer">⏱️ <span id="time">20:00</span></span></div>
+<div class="progress"><div class="bar" id="bar"></div></div>
+<div class="q" id="question"></div><div class="options" id="options"></div>
+<div class="actions"><button class="secondary" onclick="prevQ()">← Sebelum</button><button class="primary" id="nextBtn" onclick="nextQ()">Seterusnya →</button></div>
+</section>
+
+<section id="result" class="hidden result">
+<h1>🏆 Tahniah!</h1><div class="subtitle" id="resultName"></div>
+<div class="score" id="score"></div><div id="percent"></div>
+<p id="message"></p><button class="primary" onclick="restart()">CUBA SEMULA</button>
+<div class="review" id="review"></div>
+</section>
+</div></div>
+
+<script>
+const questions=[
+["Antara berikut, yang manakah teknik pemikiran komputasional yang digunakan untuk memecahkan masalah kompleks kepada bahagian yang lebih kecil dan mudah diurus?",["Leraian","Pengecaman corak","Pengitlakan","Penilaian"],0],
+["Apakah tujuan utama mengumpulkan dan menganalisis data dalam proses penyelesaian masalah?",["Mengenal pasti maklumat yang berkaitan dengan masalah","Menulis kod dengan segera","Memilih bahasa pengaturcaraan tanpa analisis","Menghapuskan semua data"],0],
+["Antara berikut, yang manakah ciri penting algoritma?",["Arahan jelas dan mempunyai permulaan serta pengakhiran","Arahan mesti ditulis dalam JavaScript sahaja","Algoritma tidak perlu mempunyai hasil","Arahan boleh bercanggah antara satu sama lain"],0],
+["Apakah dua format utama perwakilan algoritma?",["Pseudokod dan carta alir","Jadual dan graf","HTML dan CSS","Kod sumber dan pangkalan data"],0],
+["Simbol carta alir yang manakah digunakan untuk mewakili proses?",["Segi empat tepat","Berlian","Bujur","Paralelogram"],0],
+["Pernyataan yang paling tepat menerangkan pemboleh ubah ialah...",["Ruang ingatan untuk menyimpan nilai yang boleh berubah","Nilai yang sentiasa tidak berubah","Simbol carta alir untuk keputusan","Arahan untuk mengulangi program"],0],
+["Jenis data yang sesuai untuk menyimpan nilai 85.5 ialah...",["Integer","Nombor nyata","Boolean","Aksara tunggal"],1],
+["Pemalar ialah nilai yang boleh berubah-ubah sepanjang pelaksanaan atur cara.",["Betul","Salah"],1],
+["Tiga struktur kawalan asas dalam pengaturcaraan ialah...",["Urutan, pilihan dan pengulangan","Input, output dan pangkalan data","Leraian, pengitlakan dan pengujian","Fungsi, prosedur dan pemboleh ubah"],0],
+["Struktur kawalan yang melaksanakan arahan satu demi satu mengikut urutan ialah...",["Urutan","Pilihan","Pengulangan","Modular"],0],
+["Dalam struktur kawalan pilihan, apakah yang menentukan laluan arahan yang dilaksanakan?",["Syarat","Nama pemboleh ubah","Komen","Nama fail"],0],
+["Apakah tujuan penggunaan komen dalam kod?",["Menerangkan bahagian kod supaya mudah difahami","Menggantikan semua arahan program","Meningkatkan saiz pemboleh ubah","Menjadikan semua kod boleh dilaksanakan"],0],
+["Antara berikut, yang manakah amalan terbaik pengaturcaraan?",["Menggunakan nama pemboleh ubah yang bermakna","Menggunakan nama yang sama untuk semua pemboleh ubah","Menulis semua kod tanpa struktur","Mengabaikan kesilapan sintaks"],0],
+["Apakah tujuan utama tatasusunan satu dimensi?",["Menyimpan sekumpulan nilai yang berkaitan","Menyimpan satu nilai sahaja tanpa indeks","Menghasilkan carta alir","Menggantikan semua pemboleh ubah"],0],
+["Apakah maksud modular dalam pembangunan atur cara?",["Membahagikan atur cara kepada bahagian kecil yang boleh diurus","Menggabungkan semua kod dalam satu blok besar","Menghapuskan semua fungsi","Menyimpan data hanya dalam pangkalan data"],0],
+["Apakah perbezaan utama function dan procedure?",["Function mengembalikan nilai manakala procedure tidak semestinya mengembalikan nilai","Procedure sentiasa mengembalikan nilai manakala function tidak","Kedua-duanya hanya menyimpan pemboleh ubah","Kedua-duanya ialah jenis data"],0],
+["Apakah tujuan fasa pengujian dalam pembangunan aplikasi?",["Mengesan kesilapan dan memastikan aplikasi berfungsi seperti dikehendaki","Menentukan warna logo sahaja","Menghapuskan dokumentasi","Menggantikan proses analisis masalah"],0],
+["Antara berikut, yang manakah membantu meningkatkan kebolehbacaan kod?",["Indentasi yang konsisten","Menggunakan nama pemboleh ubah yang tidak bermakna","Menulis semua arahan dalam satu baris","Mengabaikan komen yang diperlukan"],0],
+["Struktur kawalan pengulangan digunakan apabila...",["Arahan perlu dilaksanakan berulang kali berdasarkan keadaan tertentu","Program hanya mempunyai satu arahan","Tiada syarat diperlukan","Data perlu dipadamkan"],0],
+["Apakah langkah yang sesuai selepas aplikasi dibangunkan untuk memastikan fungsi berjalan seperti yang dirancang?",["Menguji aplikasi","Menghapuskan kod sumber","Mengabaikan input pengguna","Menukar semua pemboleh ubah"],0]
+];
+let i=0,answers=[],seconds=1200,timer;
+function startQuiz(){document.getElementById("start").classList.add("hidden");document.getElementById("quiz").classList.remove("hidden");timer=setInterval(()=>{seconds--;document.getElementById("time").textContent=`${String(Math.floor(seconds/60)).padStart(2,"0")}:${String(seconds%60).padStart(2,"0")}`;if(seconds<=0)finish()},1000);render()}
+function render(){let q=questions[i];document.getElementById("counter").textContent=`Soalan ${i+1} / ${questions.length}`;document.getElementById("bar").style.width=((i+1)/questions.length*100)+"%";document.getElementById("question").textContent=q[0];let box=document.getElementById("options");box.innerHTML="";q[1].forEach((x,n)=>{let b=document.createElement("button");b.className="option"+(answers[i]===n?" selected":"");b.textContent=String.fromCharCode(65+n)+". "+x;b.onclick=()=>{answers[i]=n;render()};box.appendChild(b)});document.getElementById("nextBtn").textContent=i===questions.length-1?"TAMAT KUIZ":"Seterusnya →"}
+function nextQ(){if(answers[i]===undefined){alert("Sila pilih satu jawapan dahulu.");return}if(i<questions.length-1){i++;render()}else finish()}
+function prevQ(){if(i>0){i--;render()}}
+function finish(){clearInterval(timer);let score=answers.reduce((s,a,n)=>s+(a===questions[n][2]?1:0),0);document.getElementById("quiz").classList.add("hidden");document.getElementById("result").classList.remove("hidden");let name=document.getElementById("studentName").value.trim()||"Murid";document.getElementById("resultName").textContent=name;document.getElementById("score").textContent=`${score} / ${questions.length}`;let pct=Math.round(score/questions.length*100);document.getElementById("percent").textContent=`${pct}%`;document.getElementById("message").textContent=pct>=80?"Penguasaan sangat baik! Teruskan usaha.":pct>=60?"Penguasaan baik. Ulang kaji topik yang masih kurang pasti.":"Jangan berputus asa. Cuba semula selepas mengulang kaji Bab 1.";let r=document.getElementById("review");r.innerHTML="<h2>Semakan Jawapan</h2>";questions.forEach((q,n)=>{let ok=answers[n]===q[2];let d=document.createElement("div");d.className="review-item";d.innerHTML=`<b>${n+1}. ${q[0]}</b><br>Jawapan anda: ${answers[n]!==undefined?q[1][answers[n]]:"Tidak dijawab"}<br><span class="small">Jawapan: ${q[1][q[2]]}</span>`;r.appendChild(d)})}
+function restart(){i=0;answers=[];seconds=1200;document.getElementById("result").classList.add("hidden");document.getElementById("quiz").classList.remove("hidden");startQuiz()}
+</script>
+</body>
+</html>
